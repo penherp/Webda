@@ -1,0 +1,311 @@
+﻿//Slip 1,4,20
+ PHP script to read the book.xml file using SimpleXML and display its attributes and elements.
+
+
+
+
+Step 1: Create book.xml file
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book id="1">
+        <title>The Great Gatsby</title>
+        <author>F. Scott Fitzgerald</author>
+        <price>10.99</price>
+    </book>
+    <book id="2">
+        <title>To Kill a Mockingbird</title>
+        <author>Harper Lee</author>
+        <price>12.50</price>
+    </book>
+    <book id="3">
+        <title>1984</title>
+        <author>George Orwell</author>
+        <price>15.00</price>
+    </book>
+</books>
+
+
+
+
+Step 2: Create read_books.php to Read & Display XML Data
+
+
+<?php
+// Load the XML file
+$xml = simplexml_load_file("book.xml") or die("Error: Cannot load XML file.");
+
+
+// Loop through each book element
+foreach ($xml->book as $book) {
+    echo "<b>Book ID:</b> " . $book['id'] . "<br>";
+    echo "<b>Title:</b> " . $book->title . "<br>";
+    echo "<b>Author:</b> " . $book->author . "<br>";
+    echo "<b>Price:</b> $" . $book->price . "<br><br>";
+}
+?>
+
+
+// Slip 2 ,5,10
+Write a javascript to display message ‘Exams are near, have you started preparing for?’ using alert, prompt and confirm boxes. Accept proper input from user and display messages accordingly.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Preparation Alert</title>
+</head>
+<body>
+    <script>
+        // Show an alert message
+        alert("Exams are near, have you started preparing for them?");
+
+
+        // Prompt the user for input
+        var response = prompt("Have you started preparing? (yes/no)");
+
+
+        // Validate user response and show confirm box
+        if (response !== null) {  // Check if user didn't cancel the prompt
+            response = response.toLowerCase();
+
+
+            if (response === "yes") {
+                confirm("Great! Keep up the good work. Would you like to take a break?");
+            } else if (response === "no") {
+                confirm("You should start soon! Would you like some study tips?");
+            } else {
+                alert("Please enter a valid response (yes/no).");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+//Slip 3 ,8,13,16,18
+Write a javascript function to validate username and password for a membership form.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Membership Form Validation</title>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var usernamePattern = /^[a-zA-Z0-9]{5,}$/; // At least 5 characters
+            var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; // At least 8 chars, 1 number, 1 special char
+            
+            if (!usernamePattern.test(username)) {
+                alert("Username must be at least 5 characters long (letters/numbers only).");
+                return false;
+            }
+            
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long, contain at least 1 number, and 1 special character.");
+                return false;
+            }
+            
+            alert("Form submitted successfully!");
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Membership Form</h2>
+    <form onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+
+
+// Slip 6,9,14
+Write AJAX program to read contact.dat file and print the contents of the file in a tabular
+format when the user clicks on print button. Contact.dat file should contain srno, name,
+residence number, mobile number, Address. [Enter at least 3 record in contact.dat file]
+
+
+Contact.dat:-1,John Doe,0123456789,9876543210,New York
+2,Jane Smith,0112233445,9871234567,Los Angeles
+3,Mark Taylor,0223344556,9823456789,Chicago
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Contact List</title>
+    <script>
+        function loadContacts() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var lines = this.responseText.split("\\n");
+                    var table = "<table border='1'><tr><th>Sr. No</th><th>Name</th><th>Residence No.</th><th>Mobile No.</th><th>Address</th></tr>";
+
+
+                    for (var i = 0; i < lines.length; i++) {
+                        var details = lines[i].split(",");
+                        if (details.length === 5) {
+                            table += "<tr><td>" + details[0] + "</td><td>" + details[1] + "</td><td>" + details[2] + "</td><td>" + details[3] + "</td><td>" + details[4] + "</td></tr>";
+                        }
+                    }
+                    table += "</table>";
+                    document.getElementById("contactTable").innerHTML = table;
+                }
+            };
+            xhttp.open("GET", "contact.dat", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Contact List</h2>
+    <button onclick="loadContacts()">Print Contacts</button>
+    <br><br>
+    <div id="contactTable"></div>
+</body>
+</html>
+
+
+Slip 7 ,11,15
+Write AJAX program where the user is requested to write his or her name in a text box,
+and the server keeps sending back responses while the user is typing. If the user name is
+not entered then the message displayed will be, “Stranger, please tell me your name!”. If
+the name is Rohit, Virat, Dhoni, Ashwin or Harbhajan , the server responds with “Hello,
+master <user name>!”. If the name is anything else, the message will be “<user name>, I
+don’t know you!”.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Name Response</title>
+    <script>
+        function checkName() {
+            var name = document.getElementById("username").value;
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?name=" + name, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Type Your Name:</h2>
+    <input type="text" id="username" onkeyup="checkName()" placeholder="Enter your name">
+    <p id="response">Stranger, please tell me your name!</p>
+</body>
+</html>
+
+
+Php
+<?php
+if (isset($_GET['name'])) {
+    $name = trim($_GET['name']); // Get the input name and trim spaces
+    $masters = ["Rohit", "Virat", "Dhoni", "Ashwin", "Harbhajan"];
+
+
+    if ($name == "") {
+        echo "Stranger, please tell me your name!";
+    } elseif (in_array($name, $masters)) {
+        echo "Hello, master $name!";
+    } else {
+        echo "$name, I don't know you!";
+    }
+}
+?>
+//Slip 12,17,19
+Create TEACHER table as follows TEACHER(tno, tname, qualification, salary).
+Write Ajax program to select a teachers name and print the selected teachers details.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Details</title>
+    <script>
+        function fetchTeacherDetails() {
+            var teacherName = document.getElementById("teacher").value;
+            var xhttp = new XMLHttpRequest();
+
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("details").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?tname=" + teacherName, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Select a Teacher:</h2>
+    <select id="teacher" onchange="fetchTeacherDetails()">
+        <option value="">--Select Teacher--</option>
+        <option value="Dr. Sharma">Dr. Sharma</option>
+        <option value="Ms. Mehta">Ms. Mehta</option>
+        <option value="Mr. Patel">Mr. Patel</option>
+    </select>
+
+
+    <h3>Teacher Details:</h3>
+    <div id="details"></div>
+</body>
+</html>
+
+
+Server.php
+<?php
+// Hardcoded teacher data (instead of SQL)
+$teachers = [
+    "Dr. Sharma" => ["tno" => 1, "tname" => "Dr. Sharma", "qualification" => "PhD", "salary" => "75000"],
+    "Ms. Mehta" => ["tno" => 2, "tname" => "Ms. Mehta", "qualification" => "MSc", "salary" => "60000"],
+    "Mr. Patel" => ["tno" => 3, "tname" => "Mr. Patel", "qualification" => "MCA", "salary" => "55000"]
+];
+
+
+// Get teacher name from AJAX request
+if (isset($_GET['tname'])) {
+    $tname = $_GET['tname'];
+
+
+    if (array_key_exists($tname, $teachers)) {
+        $teacher = $teachers[$tname];
+        echo "<p><b>Teacher No:</b> " . $teacher["tno"] . "</p>";
+        echo "<p><b>Name:</b> " . $teacher["tname"] . "</p>";
+        echo "<p><b>Qualification:</b> " . $teacher["qualification"] . "</p>";
+        echo "<p><b>Salary:</b> ₹" . $teacher["salary"] . "</p>";
+    } else {
+        echo "No details found.";
+    }
+}
+?>
