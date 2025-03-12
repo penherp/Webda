@@ -1,0 +1,933 @@
+﻿//Slip 1,4,20
+ PHP script to read the book.xml file using SimpleXML and display its attributes and elements.
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book id="1">
+        <title>The Great Gatsby</title>
+        <author>F. Scott Fitzgerald</author>
+        <price>10.99</price>
+    </book>
+    <book id="2">
+        <title>To Kill a Mockingbird</title>
+        <author>Harper Lee</author>
+        <price>12.50</price>
+    </book>
+    <book id="3">
+        <title>1984</title>
+        <author>George Orwell</author>
+        <price>15.00</price>
+    </book>
+</books>
+
+
+
+<?php
+// Load the XML file
+$xml = simplexml_load_file("book.xml") or die("Error: Cannot load XML file.");
+
+
+// Loop through each book element
+foreach ($xml->book as $book) {
+    echo "<b>Book ID:</b> " . $book['id'] . "<br>";
+    echo "<b>Title:</b> " . $book->title . "<br>";
+    echo "<b>Author:</b> " . $book->author . "<br>";
+    echo "<b>Price:</b> $" . $book->price . "<br><br>";
+}
+?>
+
+// Slip 2 ,5,10
+Write a javascript to display message ‘Exams are near, have you started preparing for?’ using alert, prompt and confirm boxes. Accept proper input from user and display messages accordingly.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Preparation Alert</title>
+</head>
+<body>
+    <script>
+        // Show an alert message
+        alert("Exams are near, have you started preparing for them?");
+
+
+        // Prompt the user for input
+        var response = prompt("Have you started preparing? (yes/no)");
+
+
+        // Validate user response and show confirm box
+        if (response !== null) {  // Check if user didn't cancel the prompt
+            response = response.toLowerCase();
+
+
+            if (response === "yes") {
+                confirm("Great! Keep up the good work. Would you like to take a break?");
+            } else if (response === "no") {
+                confirm("You should start soon! Would you like some study tips?");
+            } else {
+                alert("Please enter a valid response (yes/no).");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+//Slip 3 ,8,13,16,18
+Write a javascript function to validate username and password for a membership form.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Membership Form Validation</title>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var usernamePattern = /^[a-zA-Z0-9]{5,}$/; // At least 5 characters
+            var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; // At least 8 chars, 1 number, 1 special char
+            
+            if (!usernamePattern.test(username)) {
+                alert("Username must be at least 5 characters long (letters/numbers only).");
+                return false;
+            }
+            
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long, contain at least 1 number, and 1 special character.");
+                return false;
+            }
+            
+            alert("Form submitted successfully!");
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Membership Form</h2>
+    <form onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+
+
+// Slip 6,9,14
+Write AJAX program to read contact.dat file and print the contents of the file in a tabular
+format when the user clicks on print button. Contact.dat file should contain srno, name,
+residence number, mobile number, Address. [Enter at least 3 record in contact.dat file]
+
+
+Contact.dat:-1,John Doe,0123456789,9876543210,New York
+2,Jane Smith,0112233445,9871234567,Los Angeles
+3,Mark Taylor,0223344556,9823456789,Chicago
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Contact List</title>
+    <script>
+        function loadContacts() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var lines = this.responseText.split("\\n");
+                    var table = "<table border='1'><tr><th>Sr. No</th><th>Name</th><th>Residence No.</th><th>Mobile No.</th><th>Address</th></tr>";
+
+
+                    for (var i = 0; i < lines.length; i++) {
+                        var details = lines[i].split(",");
+                        if (details.length === 5) {
+                            table += "<tr><td>" + details[0] + "</td><td>" + details[1] + "</td><td>" + details[2] + "</td><td>" + details[3] + "</td><td>" + details[4] + "</td></tr>";
+                        }
+                    }
+                    table += "</table>";
+                    document.getElementById("contactTable").innerHTML = table;
+                }
+            };
+            xhttp.open("GET", "contact.dat", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Contact List</h2>
+    <button onclick="loadContacts()">Print Contacts</button>
+    <br><br>
+    <div id="contactTable"></div>
+</body>
+</html>
+
+
+Slip 7 ,11,15
+Write AJAX program where the user is requested to write his or her name in a text box,
+and the server keeps sending back responses while the user is typing. If the user name is
+not entered then the message displayed will be, “Stranger, please tell me your name!”. If
+the name is Rohit, Virat, Dhoni, Ashwin or Harbhajan , the server responds with “Hello,
+master <user name>!”. If the name is anything else, the message will be “<user name>, I
+don’t know you!”.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Name Response</title>
+    <script>
+        function checkName() {
+            var name = document.getElementById("username").value;
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?name=" + name, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Type Your Name:</h2>
+    <input type="text" id="username" onkeyup="checkName()" placeholder="Enter your name">
+    <p id="response">Stranger, please tell me your name!</p>
+</body>
+</html>
+
+
+Php
+<?php
+if (isset($_GET['name'])) {
+    $name = trim($_GET['name']); // Get the input name and trim spaces
+    $masters = ["Rohit", "Virat", "Dhoni", "Ashwin", "Harbhajan"];
+
+
+    if ($name == "") {
+        echo "Stranger, please tell me your name!";
+    } elseif (in_array($name, $masters)) {
+        echo "Hello, master $name!";
+    } else {
+        echo "$name, I don't know you!";
+    }
+}
+?>
+//Slip 12,17,19
+Create TEACHER table as follows TEACHER(tno, tname, qualification, salary).
+Write Ajax program to select a teachers name and print the selected teachers details.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Details</title>
+    <script>
+        function fetchTeacherDetails() {
+            var teacherName = document.getElementById("teacher").value;
+            var xhttp = new XMLHttpRequest();
+
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("details").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?tname=" + teacherName, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Select a Teacher:</h2>
+    <select id="teacher" onchange="fetchTeacherDetails()">
+        <option value="">--Select Teacher--</option>
+        <option value="Dr. Sharma">Dr. Sharma</option>
+        <option value="Ms. Mehta">Ms. Mehta</option>
+        <option value="Mr. Patel">Mr. Patel</option>
+    </select>
+
+
+    <h3>Teacher Details:</h3>
+    <div id="details"></div>
+</body>
+</html>
+
+
+Server.php
+<?php
+// Hardcoded teacher data (instead of SQL)
+$teachers = [
+    "Dr. Sharma" => ["tno" => 1, "tname" => "Dr. Sharma", "qualification" => "PhD", "salary" => "75000"],
+    "Ms. Mehta" => ["tno" => 2, "tname" => "Ms. Mehta", "qualification" => "MSc", "salary" => "60000"],
+    "Mr. Patel" => ["tno" => 3, "tname" => "Mr. Patel", "qualification" => "MCA", "salary" => "55000"]
+];
+
+
+// Get teacher name from AJAX request
+if (isset($_GET['tname'])) {
+    $tname = $_GET['tname'];
+
+
+    if (array_key_exists($tname, $teachers)) {
+        $teacher = $teachers[$tname];
+        echo "<p><b>Teacher No:</b> " . $teacher["tno"] . "</p>";
+        echo "<p><b>Name:</b> " . $teacher["tname"] . "</p>";
+        echo "<p><b>Qualification:</b> " . $teacher["qualification"] . "</p>";
+        echo "<p><b>Salary:</b> ₹" . $teacher["salary"] . "</p>";
+    } else {
+        echo "No details found.";
+    }
+}
+?>
+
+
+
+//Data Analytics
+﻿1. Linear Regression - Sales Dataset
+
+
+(Slip No. 1, 12 - Identical)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+
+# Create the 'sales' dataset with 500 random entries
+data = {
+    'ID': np.arange(1, 501),
+    'TV': np.random.randint(10, 300, 500),
+    'Radio': np.random.randint(5, 100, 500),
+    'Newspaper': np.random.randint(0, 50, 500),
+    'Sales': np.random.randint(50, 300, 500)
+}
+df = pd.DataFrame(data)
+print("Dataset Sample (first 5 rows):")
+print(df.head())
+
+
+# Define independent (X) and target (y) variables
+X = df[['TV', 'Radio', 'Newspaper']]  # Independent variables
+y = df['Sales']  # Target variable
+
+
+# Split into training and testing sets (70% train, 30% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+# Build and train the linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+
+# Print model coefficients and performance metrics
+print("\nModel Coefficients:")
+print(f"TV coefficient: {model.coef_[0]:.4f}")
+print(f"Radio coefficient: {model.coef_[1]:.4f}")
+print(f"Newspaper coefficient: {model.coef_[2]:.4f}")
+print(f"Intercept: {model.intercept_:.4f}")
+
+
+print("\nModel Performance:")
+print(f"Mean Squared Error: {mse:.4f}")
+print(f"R-squared: {r2:.4f}")
+
+
+2. Linear Regression - Real Estate Dataset
+
+
+(Slip No. 4, 15 - Identical)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+
+# Create the 'realestate' dataset with 500 random entries
+data = {
+    'ID': np.arange(1, 501),
+    'flat': np.random.randint(10, 100, 500),
+    'houses': np.random.randint(5, 50, 500),
+    'purchases': np.random.randint(50, 200, 500)
+}
+df = pd.DataFrame(data)
+
+
+# Define independent (X) and target (y) variables
+X = df[['flat', 'houses']]  # Independent variables
+y = df['purchases']  # Target variable
+
+
+# Split into training and testing sets (70% train, 30% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+# Import required libraries
+import pandas as pd
+import numpy as np
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+from mlxtend.preprocessing import TransactionEncoder
+
+# 1. Read the dataset
+# Assuming the dataset is downloaded as 'Groceries_dataset.csv'
+try:
+    df = pd.read_csv('Groceries_dataset.csv')
+    print("Dataset loaded successfully!")
+except FileNotFoundError:
+    print("Error: Please download the dataset and place it in the working directory as 'Groceries_dataset.csv'")
+    exit()
+
+# 2. Display dataset information
+print("\nDataset Info:")
+print(df.info())
+print("\nFirst 5 rows of the dataset:")
+print(df.head())
+print("\nDataset Shape:", df.shape)
+
+# 3. Preprocess the data
+# Check for null values
+print("\nNull values in dataset:")
+print(df.isnull().sum())
+
+# Drop rows with null values if any
+df = df.dropna()
+print("\nDataset Shape after dropping null values:", df.shape)
+
+# Check for duplicate rows
+print("\nNumber of duplicate rows:", df.duplicated().sum())
+# Drop duplicates
+df = df.drop_duplicates()
+print("Dataset Shape after dropping duplicates:", df.shape)
+
+# 4. Convert data into transaction format
+# Group items by Member_number and Date to create transactions
+transactions = df.groupby(['Member_number', 'Date'])['itemDescription'].apply(list).values.tolist()
+
+# 5. Convert categorical values to numeric format using TransactionEncoder
+te = TransactionEncoder()
+te_ary = te.fit(transactions).transform(transactions)
+# Create a DataFrame with one-hot encoded transactions
+transaction_df = pd.DataFrame(te_ary, columns=te.columns_)
+print("\nOne-hot encoded transaction data (first 5 rows):")
+print(transaction_df.head())
+
+# 6. Apply Apriori algorithm to find frequent itemsets
+# Set minimum support threshold (adjust as needed)
+min_support = 0.01  # 1% support
+frequent_itemsets = apriori(transaction_df, min_support=min_support, use_colnames=True)
+print("\nFrequent Itemsets:")
+print(frequent_itemsets)
+
+# Sort frequent itemsets by support in descending order
+frequent_itemsets = frequent_itemsets.sort_values(by='support', ascending=False)
+print("\nTop 10 Frequent Itemsets (sorted by support):")
+print(frequent_itemsets.head(10))
+
+# 7. Generate association rules
+# Set minimum confidence threshold
+min_confidence = 0.2  # 20% confidence
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=min_confidence)
+print("\nAssociation Rules:")
+print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
+
+# Sort rules by lift in descending order
+rules = rules.sort_values(by='lift', ascending=False)
+print("\nTop 10 Association Rules (sorted by lift):")
+print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']].head(10))
+
+# Additional statistics
+print("\nNumber of frequent itemsets:", len(frequent_itemsets))
+print("Number of association rules:", len(rules))
+
+# Build and train the linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+
+# Print model coefficients
+print("\nModel Coefficients:")
+print(f"Flat coefficient: {model.coef_[0]:.4f}")
+print(f"Houses coefficient: {model.coef_[1]:.4f}")
+print(f"Intercept: {model.intercept_:.4f}")
+
+
+3. Logistic Regression - User Dataset
+
+
+(Slip No. 2, 18 - Identical)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Create the 'User' dataset with 500 entries
+data = {
+    'User ID': np.arange(1, 501),
+    'Gender': np.random.choice(['Male', 'Female'], 500),
+    'Age': np.random.randint(18, 70, 500),  # Age range: 18 to 70
+    'EstimatedSalary': np.random.randint(15000, 150000, 500),  # Salary range: 15k to 150k
+    'Purchased': np.random.choice([0, 1], 500)  # 0 = Did not buy, 1 = Bought
+}
+df = pd.DataFrame(data)
+
+# Display the first few rows of the dataset
+print("Dataset Sample (first 5 rows):")
+print(df.head())
+
+# Convert categorical column 'Gender' to numeric using LabelEncoder
+encoder = LabelEncoder()
+df['Gender'] = encoder.fit_transform(df['Gender'])  # Male = 1, Female = 0
+
+# Define independent (X) and target (y) variables
+X = df[['Gender', 'Age', 'EstimatedSalary']]  # Features
+y = df['Purchased']  # Target variable (whether they purchased a car)
+
+# Split the dataset into training and testing sets (70% train, 30% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Build and train the logistic regression model
+model = LogisticRegression(max_iter=200)  # Increased max_iter to ensure convergence
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+
+# Print model coefficients
+print("\nModel Coefficients:")
+print(f"Intercept: {model.intercept_[0]:.4f}")
+print(f"Gender coefficient: {model.coef_[0][0]:.4f}")
+print(f"Age coefficient: {model.coef_[0][1]:.4f}")
+print(f"EstimatedSalary coefficient: {model.coef_[0][2]:.4f}")
+
+# Print evaluation metrics
+print("\nModel Performance:")
+print(f"Accuracy: {accuracy:.4f}")
+print("\nConfusion Matrix:")
+print(conf_matrix)
+print("\nClassification Report:")
+print(class_report)
+
+# Example prediction for a new user
+new_user = np.array([[1, 35, 60000]])  # Example: Male, 35 years old, $60k salary
+prediction = model.predict(new_user)
+print("\nPrediction for new user (Male, 35, $60k):")
+print("Will buy a car" if prediction[0] == 1 else "Will not buy a car")
+
+4. Apriori Algorithm - Market Basket Analysis
+
+
+(Slip No. 5, 7, 9, 10, 13, 16, 19, 20 - Identical)
+
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+
+
+# Define the dataset
+dataset = [
+    ['Bread', 'Milk'],
+    ['Bread', 'Diaper', 'Beer', 'Eggs'],
+    ['Milk', 'Diaper', 'Beer', 'Coke'],
+    ['Bread', 'Milk', 'Diaper', 'Beer'],
+    ['Bread', 'Milk', 'Diaper', 'Coke']
+]
+
+
+# Convert categorical values to numeric format (one-hot encoding)
+te = TransactionEncoder()
+te_ary = te.fit(dataset).transform(dataset)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+
+# Apply Apriori algorithm with different min_support values
+min_support_values = [0.6, 0.4, 0.2]  # Testing multiple thresholds
+for min_sup in min_support_values:
+    frequent_itemsets = apriori(df, min_support=min_sup, use_colnames=True)
+    print(f"\nFrequent itemsets with min_support={min_sup}:")
+    print(frequent_itemsets)
+    
+    # Generate association rules
+    if not frequent_itemsets.empty:
+        rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+        print("\nAssociation Rules:")
+        print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
+
+
+
+
+5. Text Summarization - Extractive Approach
+
+
+(Slip No. 8 - Unique)
+
+
+import nltk
+import re
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+from collections import defaultdict
+
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+
+text = """Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and humans using natural language. NLP techniques enable computers to process and understand human language, allowing applications such as speech recognition, machine translation, and sentiment analysis. The field has seen significant advancements due to deep learning and large-scale language models."""
+
+
+# Clean text
+clean_text = re.sub(r'[^a-zA-Z\s]', '', text)
+sentences = sent_tokenize(clean_text)
+
+
+# Calculate word frequency
+stop_words = set(stopwords.words('english'))
+word_freq = defaultdict(int)
+for sentence in sentences:
+    words = word_tokenize(sentence.lower())
+    for word in words:
+        if word not in stop_words:
+            word_freq[word] += 1
+
+
+# Score sentences
+sentence_scores = {i: sum(word_freq[word] for word in word_tokenize(sent.lower()) if word in word_freq) for i, sent in enumerate(sentences)}
+
+
+# Select top sentences
+top_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:2]
+summary = " ".join(sentences[i] for i in sorted(top_sentences))
+
+
+print("Extractive Summary:\n", summary)
+
+
+
+
+1. Linear Regression for Fish Species Weight Prediction
+
+
+(Using Fish Market Dataset from Kaggle)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+# Load the dataset
+file_path = "/mnt/data/file-UALYDjz2i1yWVGCGNFMdWL"  # Update with your actual file path
+df = pd.read_csv(file_path)
+
+
+# Display first few rows
+print("Dataset Sample:")
+print(df.head())
+
+
+# Selecting features and target variable
+X = df[['Length1', 'Length2', 'Length3', 'Height', 'Width']]  # Features
+y = df['Weight']  # Target variable
+
+
+# Splitting dataset (70% training, 30% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+# Train the Linear Regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+
+# Model evaluation
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+
+# Print results
+print("\nModel Coefficients:")
+print(f"Intercept: {model.intercept_:.4f}")
+for feature, coef in zip(X.columns, model.coef_):
+    print(f"{feature}: {coef:.4f}")
+
+
+print("\nModel Performance:")
+print(f"Mean Squared Error: {mse:.4f}")
+print(f"R-squared Score: {r2:.4f}")
+
+
+
+
+---
+
+
+2. Logistic Regression on the Iris Dataset
+
+
+(Statistical Summary + Classification)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn import datasets
+
+
+# Load the Iris dataset
+iris = datasets.load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['species'] = iris.target
+
+
+# Convert target numbers to species names
+df['species'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+
+# Display basic statistical details
+print("Basic Statistics:\n")
+print(df.groupby('species').describe())
+
+
+# Prepare data for logistic regression
+X = df.iloc[:, :-1]  # Features: Sepal/Petal lengths & widths
+y = df['species']  # Target variable
+
+
+# Encode labels (setosa=0, versicolor=1, virginica=2)
+encoder = LabelEncoder()
+y_encoded = encoder.fit_transform(y)
+
+
+# Split into train and test sets (70% training, 30% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.3, random_state=42)
+
+
+# Train Logistic Regression model
+model = LogisticRegression(max_iter=200)
+model.fit(X_train, y_train)
+
+
+# Predict species
+y_pred = model.predict(X_test)
+
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"\nModel Accuracy: {accuracy:.4f}")
+
+
+//Drop null values and turn into apriori algorithm
+# Import required libraries
+import pandas as pd
+import numpy as np
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+from mlxtend.preprocessing import TransactionEncoder
+
+# 1. Read the dataset
+# Assuming the dataset is downloaded as 'Groceries_dataset.csv'
+try:
+    df = pd.read_csv('Groceries_dataset.csv')
+    print("Dataset loaded successfully!")
+except FileNotFoundError:
+    print("Error: Please download the dataset and place it in the working directory as 'Groceries_dataset.csv'")
+    exit()
+
+# 2. Display dataset information
+print("\nDataset Info:")
+print(df.info())
+print("\nFirst 5 rows of the dataset:")
+print(df.head())
+print("\nDataset Shape:", df.shape)
+
+# 3. Preprocess the data
+# Check for null values
+print("\nNull values in dataset:")
+print(df.isnull().sum())
+
+# Drop rows with null values if any
+df = df.dropna()
+print("\nDataset Shape after dropping null values:", df.shape)
+
+# Check for duplicate rows
+print("\nNumber of duplicate rows:", df.duplicated().sum())
+# Drop duplicates
+df = df.drop_duplicates()
+print("Dataset Shape after dropping duplicates:", df.shape)
+
+# 4. Convert data into transaction format
+# Group items by Member_number and Date to create transactions
+transactions = df.groupby(['Member_number', 'Date'])['itemDescription'].apply(list).values.tolist()
+
+# 5. Convert categorical values to numeric format using TransactionEncoder
+te = TransactionEncoder()
+te_ary = te.fit(transactions).transform(transactions)
+# Create a DataFrame with one-hot encoded transactions
+transaction_df = pd.DataFrame(te_ary, columns=te.columns_)
+print("\nOne-hot encoded transaction data (first 5 rows):")
+print(transaction_df.head())
+
+# 6. Apply Apriori algorithm to find frequent itemsets
+# Set minimum support threshold (adjust as needed)
+min_support = 0.01  # 1% support
+frequent_itemsets = apriori(transaction_df, min_support=min_support, use_colnames=True)
+print("\nFrequent Itemsets:")
+print(frequent_itemsets)
+
+# Sort frequent itemsets by support in descending order
+frequent_itemsets = frequent_itemsets.sort_values(by='support', ascending=False)
+print("\nTop 10 Frequent Itemsets (sorted by support):")
+print(frequent_itemsets.head(10))
+
+# 7. Generate association rules
+# Set minimum confidence threshold
+min_confidence = 0.2  # 20% confidence
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=min_confidence)
+print("\nAssociation Rules:")
+print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
+
+# Sort rules by lift in descending order
+rules = rules.sort_values(by='lift', ascending=False)
+print("\nTop 10 Association Rules (sorted by lift):")
+print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']].head(10))
+
+# Additional statistics
+print("\nNumber of frequent itemsets:", len(frequent_itemsets))
+print("Number of association rules:", len(rules))
+
+
+//Own dataset to apriori algorithm
+
+# Import required libraries
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# 1. Create a synthetic transaction dataset
+# Each transaction represents items purchased together
+transactions = [
+    ['Milk', 'Bread', 'Eggs', 'Butter'],
+    ['Bread', 'Eggs', 'Cheese'],
+    ['Milk', 'Bread', 'Cheese', 'Yogurt'],
+    ['Milk', 'Eggs', 'Yogurt'],
+    ['Bread', 'Butter', 'Cheese'],
+    ['Milk', 'Bread', 'Eggs'],
+    ['Eggs', 'Yogurt', 'Butter'],
+    ['Milk', 'Cheese', 'Yogurt'],
+    ['Bread', 'Eggs', 'Butter'],
+    ['Milk', 'Bread', 'Yogurt', 'Cheese']
+]
+
+# Display the dataset
+print("Transaction Dataset:")
+for i, transaction in enumerate(transactions, 1):
+    print(f"Transaction {i}: {transaction}")
+
+# 2. Convert transactions to one-hot encoded format
+te = TransactionEncoder()
+te_ary = te.fit(transactions).transform(transactions)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+# Display the one-hot encoded DataFrame
+print("\nOne-hot Encoded DataFrame:")
+print(df)
+
+# 3. Apply Apriori algorithm with different min_support values
+min_support_values = [0.3, 0.5, 0.7]  # Testing different thresholds
+
+for min_sup in min_support_values:
+    print(f"\n=== Apriori with min_support = {min_sup} ===")
+    
+    # Generate frequent itemsets
+    frequent_itemsets = apriori(df, min_support=min_sup, use_colnames=True)
+    print("\nFrequent Itemsets:")
+    if frequent_itemsets.empty:
+        print("No frequent itemsets found at this support level.")
+    else:
+        # Sort by support in descending order
+        frequent_itemsets = frequent_itemsets.sort_values(by='support', ascending=False)
+        print(frequent_itemsets)
+
+        # Generate association rules with a minimum confidence threshold
+        min_confidence = 0.6  # 60% confidence
+        rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=min_confidence)
+        print("\nAssociation Rules:")
+        if rules.empty:
+            print("No association rules found at this confidence level.")
+        else:
+            # Sort by lift in descending order
+            rules = rules.sort_values(by='lift', ascending=False)
+            print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
+
+    # Additional statistics
+    print(f"\nNumber of frequent itemsets: {len(frequent_itemsets)}")
+    print(f"Number of association rules: {len(rules)}")
