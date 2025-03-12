@@ -1,0 +1,525 @@
+﻿//Slip 1,4,20
+ PHP script to read the book.xml file using SimpleXML and display its attributes and elements.
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book id="1">
+        <title>The Great Gatsby</title>
+        <author>F. Scott Fitzgerald</author>
+        <price>10.99</price>
+    </book>
+    <book id="2">
+        <title>To Kill a Mockingbird</title>
+        <author>Harper Lee</author>
+        <price>12.50</price>
+    </book>
+    <book id="3">
+        <title>1984</title>
+        <author>George Orwell</author>
+        <price>15.00</price>
+    </book>
+</books>
+
+
+
+<?php
+// Load the XML file
+$xml = simplexml_load_file("book.xml") or die("Error: Cannot load XML file.");
+
+
+// Loop through each book element
+foreach ($xml->book as $book) {
+    echo "<b>Book ID:</b> " . $book['id'] . "<br>";
+    echo "<b>Title:</b> " . $book->title . "<br>";
+    echo "<b>Author:</b> " . $book->author . "<br>";
+    echo "<b>Price:</b> $" . $book->price . "<br><br>";
+}
+?>
+
+// Slip 2 ,5,10
+Write a javascript to display message ‘Exams are near, have you started preparing for?’ using alert, prompt and confirm boxes. Accept proper input from user and display messages accordingly.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Preparation Alert</title>
+</head>
+<body>
+    <script>
+        // Show an alert message
+        alert("Exams are near, have you started preparing for them?");
+
+
+        // Prompt the user for input
+        var response = prompt("Have you started preparing? (yes/no)");
+
+
+        // Validate user response and show confirm box
+        if (response !== null) {  // Check if user didn't cancel the prompt
+            response = response.toLowerCase();
+
+
+            if (response === "yes") {
+                confirm("Great! Keep up the good work. Would you like to take a break?");
+            } else if (response === "no") {
+                confirm("You should start soon! Would you like some study tips?");
+            } else {
+                alert("Please enter a valid response (yes/no).");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+//Slip 3 ,8,13,16,18
+Write a javascript function to validate username and password for a membership form.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Membership Form Validation</title>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var usernamePattern = /^[a-zA-Z0-9]{5,}$/; // At least 5 characters
+            var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/; // At least 8 chars, 1 number, 1 special char
+            
+            if (!usernamePattern.test(username)) {
+                alert("Username must be at least 5 characters long (letters/numbers only).");
+                return false;
+            }
+            
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long, contain at least 1 number, and 1 special character.");
+                return false;
+            }
+            
+            alert("Form submitted successfully!");
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Membership Form</h2>
+    <form onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+
+
+// Slip 6,9,14
+Write AJAX program to read contact.dat file and print the contents of the file in a tabular
+format when the user clicks on print button. Contact.dat file should contain srno, name,
+residence number, mobile number, Address. [Enter at least 3 record in contact.dat file]
+
+
+Contact.dat:-1,John Doe,0123456789,9876543210,New York
+2,Jane Smith,0112233445,9871234567,Los Angeles
+3,Mark Taylor,0223344556,9823456789,Chicago
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Contact List</title>
+    <script>
+        function loadContacts() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var lines = this.responseText.split("\\n");
+                    var table = "<table border='1'><tr><th>Sr. No</th><th>Name</th><th>Residence No.</th><th>Mobile No.</th><th>Address</th></tr>";
+
+
+                    for (var i = 0; i < lines.length; i++) {
+                        var details = lines[i].split(",");
+                        if (details.length === 5) {
+                            table += "<tr><td>" + details[0] + "</td><td>" + details[1] + "</td><td>" + details[2] + "</td><td>" + details[3] + "</td><td>" + details[4] + "</td></tr>";
+                        }
+                    }
+                    table += "</table>";
+                    document.getElementById("contactTable").innerHTML = table;
+                }
+            };
+            xhttp.open("GET", "contact.dat", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Contact List</h2>
+    <button onclick="loadContacts()">Print Contacts</button>
+    <br><br>
+    <div id="contactTable"></div>
+</body>
+</html>
+
+
+Slip 7 ,11,15
+Write AJAX program where the user is requested to write his or her name in a text box,
+and the server keeps sending back responses while the user is typing. If the user name is
+not entered then the message displayed will be, “Stranger, please tell me your name!”. If
+the name is Rohit, Virat, Dhoni, Ashwin or Harbhajan , the server responds with “Hello,
+master <user name>!”. If the name is anything else, the message will be “<user name>, I
+don’t know you!”.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Name Response</title>
+    <script>
+        function checkName() {
+            var name = document.getElementById("username").value;
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?name=" + name, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Type Your Name:</h2>
+    <input type="text" id="username" onkeyup="checkName()" placeholder="Enter your name">
+    <p id="response">Stranger, please tell me your name!</p>
+</body>
+</html>
+
+
+Php
+<?php
+if (isset($_GET['name'])) {
+    $name = trim($_GET['name']); // Get the input name and trim spaces
+    $masters = ["Rohit", "Virat", "Dhoni", "Ashwin", "Harbhajan"];
+
+
+    if ($name == "") {
+        echo "Stranger, please tell me your name!";
+    } elseif (in_array($name, $masters)) {
+        echo "Hello, master $name!";
+    } else {
+        echo "$name, I don't know you!";
+    }
+}
+?>
+//Slip 12,17,19
+Create TEACHER table as follows TEACHER(tno, tname, qualification, salary).
+Write Ajax program to select a teachers name and print the selected teachers details.
+
+
+Html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Details</title>
+    <script>
+        function fetchTeacherDetails() {
+            var teacherName = document.getElementById("teacher").value;
+            var xhttp = new XMLHttpRequest();
+
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("details").innerHTML = this.responseText;
+                }
+            };
+
+
+            xhttp.open("GET", "server.php?tname=" + teacherName, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h2>Select a Teacher:</h2>
+    <select id="teacher" onchange="fetchTeacherDetails()">
+        <option value="">--Select Teacher--</option>
+        <option value="Dr. Sharma">Dr. Sharma</option>
+        <option value="Ms. Mehta">Ms. Mehta</option>
+        <option value="Mr. Patel">Mr. Patel</option>
+    </select>
+
+
+    <h3>Teacher Details:</h3>
+    <div id="details"></div>
+</body>
+</html>
+
+
+Server.php
+<?php
+// Hardcoded teacher data (instead of SQL)
+$teachers = [
+    "Dr. Sharma" => ["tno" => 1, "tname" => "Dr. Sharma", "qualification" => "PhD", "salary" => "75000"],
+    "Ms. Mehta" => ["tno" => 2, "tname" => "Ms. Mehta", "qualification" => "MSc", "salary" => "60000"],
+    "Mr. Patel" => ["tno" => 3, "tname" => "Mr. Patel", "qualification" => "MCA", "salary" => "55000"]
+];
+
+
+// Get teacher name from AJAX request
+if (isset($_GET['tname'])) {
+    $tname = $_GET['tname'];
+
+
+    if (array_key_exists($tname, $teachers)) {
+        $teacher = $teachers[$tname];
+        echo "<p><b>Teacher No:</b> " . $teacher["tno"] . "</p>";
+        echo "<p><b>Name:</b> " . $teacher["tname"] . "</p>";
+        echo "<p><b>Qualification:</b> " . $teacher["qualification"] . "</p>";
+        echo "<p><b>Salary:</b> ₹" . $teacher["salary"] . "</p>";
+    } else {
+        echo "No details found.";
+    }
+}
+?>
+
+
+
+//Data Analytics
+# Question: Linear Regression - Sales Dataset (Slip No. 1, 12)
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+np.random.seed(42)
+data = {
+    'ID': np.arange(1, 501),
+    'TV': np.random.randint(10, 300, 500),
+    'Radio': np.random.randint(5, 100, 500),
+    'Newspaper': np.random.randint(0, 50, 500),
+    'Sales': np.random.randint(50, 300, 500)
+}
+df = pd.DataFrame(data)
+
+X = df[['TV', 'Radio', 'Newspaper']]
+y = df['Sales']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print(f"X_train shape: {X_train.shape}")
+print(f"X_test shape: {X_test.shape}")
+print(f"y_train shape: {y_train.shape}")
+print(f"y_test shape: {y_test.shape}")
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+# Question: Linear Regression - Real Estate Dataset (Slip No. 4, 15)
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+np.random.seed(42)
+data = {
+    'ID': np.arange(1, 501),
+    'flat': np.random.randint(10, 100, 500),
+    'houses': np.random.randint(5, 50, 500),
+    'purchases': np.random.randint(50, 200, 500)
+}
+df = pd.DataFrame(data)
+
+X = df[['flat', 'houses']]
+y = df['purchases']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print(f"X_train shape: {X_train.shape}")
+print(f"X_test shape: {X_test.shape}")
+print(f"y_train shape: {y_train.shape}")
+print(f"y_test shape: {y_test.shape}")
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+# Question: Logistic Regression - User Dataset (Slip No. 2, 18)
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+np.random.seed(42)
+data = {
+    'User ID': np.arange(1, 501),
+    'Gender': np.random.choice(['Male', 'Female'], 500),
+    'Age': np.random.randint(18, 60, 500),
+    'EstimatedSalary': np.random.randint(20000, 120000, 500),
+    'Purchased': np.random.choice([0, 1], 500)
+}
+df = pd.DataFrame(data)
+
+df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
+X = df[['Gender', 'Age', 'EstimatedSalary']]
+y = df['Purchased']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print(f"X_train shape: {X_train.shape}")
+print(f"X_test shape: {X_test.shape}")
+print(f"y_train shape: {y_train.shape}")
+print(f"y_test shape: {y_test.shape}")
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Accuracy: {accuracy}")
+
+# Question: Apriori Algorithm - Market Basket Analysis (Slip No. 5, 7, 9, 10, 13, 16, 19, 20)
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+
+dataset = [
+    ['Bread', 'Milk'],
+    ['Bread', 'Diaper', 'Beer', 'Eggs'],
+    ['Milk', 'Diaper', 'Beer', 'Coke'],
+    ['Bread', 'Milk', 'Diaper', 'Beer'],
+    ['Bread', 'Milk', 'Diaper', 'Coke']
+]
+
+te = TransactionEncoder()
+te_ary = te.fit(dataset).transform(dataset)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+print("One-hot encoded DataFrame:")
+print(df)
+
+frequent_itemsets = apriori(df, min_support=0.6, use_colnames=True)
+print("Frequent itemsets with min_support=0.6:")
+print(frequent_itemsets)
+
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+print("Association rules with min_confidence=0.7:")
+print(rules)
+
+# Question: Text Summarization - Extractive Approach (Slip No. 8)
+import nltk
+import re
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+from collections import defaultdict
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+text = """Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and humans using natural language. NLP techniques enable computers to process and understand human language, allowing applications such as speech recognition, machine translation, and sentiment analysis. The field has seen significant advancements due to deep learning and large-scale language models."""
+clean_text = re.sub(r'[^a-zA-Z\s]', '', text)
+sentences = sent_tokenize(clean_text)
+
+stop_words = set(stopwords.words('english'))
+word_freq = defaultdict(int)
+for sentence in sentences:
+    for word in word_tokenize(sentence.lower()):
+        if word not in stop_words:
+            word_freq[word] += 1
+
+sentence_scores = {i: sum(word_freq[word] for word in word_tokenize(sent.lower()) if word in word_freq) for i, sent in enumerate(sentences)}
+top_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:2]
+summary = " ".join(sentences[i] for i in sorted(top_sentences))
+
+print("Summary:")
+print(summary)
+
+# Question: Linear Regression for Fish Species Weight Prediction
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+df = pd.read_csv("/mnt/data/file-UALYDjz2i1yWVGCGNFMdWL")
+X = df[['Length1', 'Length2', 'Length3', 'Height', 'Width']]
+y = df['Weight']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print(f"X_train shape: {X_train.shape}")
+print(f"X_test shape: {X_test.shape}")
+print(f"y_train shape: {y_train.shape}")
+print(f"y_test shape: {y_test.shape}")
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+# Question: Logistic Regression on the Iris Dataset
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn import datasets
+
+iris = datasets.load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['species'] = iris.target
+df['species'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+X = df.iloc[:, :-1]
+y = LabelEncoder().fit_transform(df['species'])
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print(f"X_train shape: {X_train.shape}")
+print(f"X_test shape: {X_test.shape}")
+print(f"y_train shape: {y_train.shape}")
+print(f"y_test shape: {y_test.shape}")
+
+model = LogisticRegression(max_iter=200)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Accuracy: {accuracy}")
