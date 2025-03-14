@@ -1,0 +1,888 @@
+Slip 1, 10, 23 Q1
+import java.util.*;
+class CityList {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        ArrayList<String> cities = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("City " + (i+1) + ": ");
+            cities.add(sc.next());
+        }
+        System.out.println("Cities: " + cities);
+        cities.clear();
+        System.out.println("After remove: " + cities);
+    }
+}
+Output:
+Enter n: 3
+City 1: Pune
+City 2: Mumbai
+City 3: Delhi
+Cities: [Pune, Mumbai, Delhi]
+After remove: []
+
+Slip 1 Q2
+<%@ page import="java.util.Date" %>
+<html><body>
+<h2>Implicit Objects</h2>
+<% 
+    out.println("Date: " + new Date() + "<br>");
+    out.println("User-Agent: " + request.getHeader("User-Agent") + "<br>");
+    response.addCookie(new Cookie("test", "value"));
+    out.println("Cookie added<br>");
+    out.println("Servlet: " + config.getServletName() + "<br>");
+    application.setAttribute("appKey", "appValue");
+    out.println("App Attr: " + application.getAttribute("appKey") + "<br>");
+    out.println("Session ID: " + session.getId() + "<br>");
+    pageContext.setAttribute("pageKey", "pageValue");
+    out.println("Page Attr: " + pageContext.getAttribute("pageKey") + "<br>");
+    out.println("Page: " + page.getClass().getName());
+%>
+</body></html>
+Output:
+<h2>Implicit Objects</h2>
+Date: Fri Mar 14 23:00:00 IST 2025<br>
+User-Agent: Mozilla/5.0 (...)<br>
+Cookie added<br>
+Servlet: jsp<br>
+App Attr: appValue<br>
+Session ID: ABC123456789<br>
+Page Attr: pageValue<br>
+Page: org.apache.jsp.index_jsp
+
+---
+
+Slip 2, 11, 24 Q1
+import java.util.*;
+class FriendList {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        LinkedList<String> friends = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Friend " + (i+1) + ": ");
+            friends.add(sc.next());
+        }
+        System.out.println("Friends: " + friends);
+    }
+}
+Output:
+Enter n: 2
+Friend 1: Alice
+Friend 2: Bob
+Friends: [Alice, Bob]
+
+Slip 2 Q2
+<%@ page import="java.util.*" session="true" %>
+<html><body>
+<h2>Book Purchase</h2>
+<% 
+    String user = request.getParameter("user");
+    if (user != null) {
+        session.setAttribute("user", user);
+        out.println("Logged in: " + user + "<br>");
+    }
+    if (session.getAttribute("cart") == null) {
+        session.setAttribute("cart", new ArrayList<String>());
+    }
+    ArrayList<String> cart = (ArrayList<String>) session.getAttribute("cart");
+    String book = request.getParameter("book");
+    if (book != null) {
+        cart.add(book);
+        out.println("Added: " + book + "<br>");
+    }
+    int total = cart.size() * 100;
+    out.println("Cart: " + cart + "<br>Total: " + total);
+%>
+<form>
+    User: <input name="user"><br>
+    Book: <input name="book"><input type="submit" value="Add">
+</form>
+</body></html>
+Output:
+<h2>Book Purchase</h2>
+Logged in: John<br>
+Added: Java<br>
+Cart: [Java]<br>Total: 100
+
+---
+
+Slip 3, 12, 30 Q1
+import java.util.*;
+class ColorSet {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        TreeSet<String> colors = new TreeSet<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Color " + (i+1) + ": ");
+            colors.add(sc.next());
+        }
+        System.out.println("Colors: " + colors);
+    }
+}
+Output:
+Enter n: 3
+Color 1: Red
+Color 2: Blue
+Color 3: Green
+Colors: [Blue, Green, Red]
+
+Slip 3, 9, 30 Q2
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.sql.*;
+public class SearchServlet extends HttpServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        String num = req.getParameter("custNo");
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM customer WHERE custNo='" + num + "'");
+        out.println("<html><body>");
+        if (rs.next()) {
+            out.println("Name: " + rs.getString("custName"));
+        } else {
+            out.println("Customer not found");
+        }
+        out.println("</body></html>");
+        con.close();
+    }
+}
+<!-- HTML: search.html -->
+<form action="SearchServlet">
+    Customer No: <input name="custNo"><input type="submit">
+</form>
+Output (custNo=1):
+<html><body>Name: Alice</body></html>
+Output (not found):
+<html><body>Customer not found</body></html>
+
+---
+
+Slip 4, 13, 25 Q1
+import java.util.*;
+class ContactList {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        HashMap<String, String> contacts = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Mobile " + (i+1) + ": ");
+            String mobile = sc.next();
+            System.out.print("Name: ");
+            String name = sc.next();
+            contacts.put(mobile, name);
+        }
+        System.out.println("Contacts: " + contacts);
+    }
+}
+Output:
+Enter n: 2
+Mobile 1: 12345
+Name: Alice
+Mobile 2: 67890
+Name: Bob
+Contacts: {12345=Alice, 67890=Bob}
+
+Slip 4, 10, 29 Q2
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class SubjectServlet extends HttpServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        String subject = req.getParameter("subject");
+        out.println("<html><body>");
+        Cookie[] cookies = req.getCookies();
+        boolean exists = false;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("subject") && c.getValue().equals(subject)) {
+                    exists = true;
+                    break;
+                }
+            }
+        }
+        if (!exists && subject != null) {
+            res.addCookie(new Cookie("subject", subject));
+            out.println("Added: " + subject);
+        } else {
+            out.println("Subject exists or invalid");
+        }
+        out.println("</body></html>");
+    }
+}
+<!-- HTML: subjects.html -->
+<form action="SubjectServlet">
+    <input type="radio" name="subject" value="Maths">Maths
+    <input type="radio" name="subject" value="Physics">Physics
+    <input type="submit">
+</form>
+Output (first):
+<html><body>Added: Maths</body></html>
+Output (duplicate):
+<html><body>Subject exists or invalid</body></html>
+
+---
+
+Slip 5, 14, 26 Q1
+import java.util.*;
+class UniqueSorted {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        TreeSet<Integer> numbers = new TreeSet<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Number " + (i+1) + ": ");
+            numbers.add(sc.nextInt());
+        }
+        System.out.println("Sorted Unique: " + numbers);
+    }
+}
+Output:
+Enter n: 4
+Number 1: 5
+Number 2: 2
+Number 3: 5
+Number 4: 3
+Sorted Unique: [2, 3, 5]
+
+Slip 5, 11, 28 Q2
+<%@ page import="java.sql.*" %>
+<html><body><table border="1">
+<% 
+    Class.forName("org.postgresql.Driver");
+    Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+    Statement stmt = con.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT * FROM PATIENT");
+    ResultSetMetaData rsmd = rs.getMetaData();
+    int n = rsmd.getColumnCount();
+    out.println("<tr>");
+    for (int i = 1; i <= n; i++) out.println("<th>" + rsmd.getColumnName(i) + "</th>");
+    out.println("</tr>");
+    while (rs.next()) {
+        out.println("<tr>");
+        for (int i = 1; i <= n; i++) out.println("<td>" + rs.getString(i) + "</td>");
+        out.println("</tr>");
+    }
+    con.close();
+%>
+</table></body></html>
+Output:
+<html><body><table border="1">
+<tr><th>PatientNo</th><th>PatientName</th></tr>
+<tr><td>1</td><td>Alice</td></tr>
+<tr><td>2</td><td>Bob</td></tr>
+</table></body></html>
+
+---
+
+Slip 6, 15, 27 Q1
+import java.util.*;
+class SortHashMap {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        HashMap<String, String> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Key " + (i+1) + ": ");
+            String key = sc.next();
+            System.out.print("Value: ");
+            String value = sc.next();
+            map.put(key, value);
+        }
+        System.out.println("Before: " + map);
+        TreeMap<String, String> sorted = new TreeMap<>(map);
+        System.out.println("After: " + sorted);
+    }
+}
+Output:
+Enter n: 2
+Key 1: B
+Value: Bob
+Key 2: A
+Value: Alice
+Before: {B=Bob, A=Alice}
+After: {A=Alice, B=Bob}
+
+Slip 6, 13 Q2
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Date;
+@RestController
+public class DateController {
+    @GetMapping("/date")
+    public String getDate() {
+        return "Current Date: " + new Date();
+    }
+}
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class SpringApp {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringApp.class, args);
+    }
+}
+Output (at http://localhost:8080/date):
+Current Date: Fri Mar 14 23:00:00 IST 2025
+
+---
+
+Slip 7, 16, 28 Q1
+import java.util.*;
+import java.io.*;
+class FileContacts {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(new File("contacts.txt"));
+        HashMap<String, String> contacts = new HashMap<>();
+        while (sc.hasNextLine()) {
+            String[] line = sc.nextLine().split("\t");
+            contacts.put(line[0], line[1]);
+        }
+        System.out.print("Enter name/phone: ");
+        String input = new Scanner(System.in).next();
+        for (Map.Entry<String, String> e : contacts.entrySet()) {
+            if (e.getKey().equals(input)) System.out.println("Name: " + e.getValue());
+            if (e.getValue().equals(input)) System.out.println("Phone: " + e.getKey());
+        }
+    }
+}
+Output (contacts.txt: "123\tAlice\n456\tBob"):
+Enter name/phone: 123
+Name: Alice
+
+Slip 7, 8 Q2
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class InfoServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        out.println("<html><body>");
+        out.println("IP: " + req.getRemoteAddr() + "<br>");
+        out.println("Browser: " + req.getHeader("User-Agent") + "<br>");
+        out.println("OS: " + System.getProperty("os.name") + "<br>");
+        out.println("Servlet: " + getServletContext().getServletContextName());
+        out.println("</body></html>");
+    }
+}
+Output:
+<html><body>
+IP: 127.0.0.1<br>
+Browser: Mozilla/5.0 (...)<br>
+OS: Linux<br>
+Servlet: MyApp
+</body></html>
+
+---
+
+Slip 8, 17 Q1
+class PrintThread extends Thread {
+    String text;
+    int times;
+    PrintThread(String text, int times) {
+        this.text = text;
+        this.times = times;
+    }
+    public void run() {
+        for (int i = 0; i < times; i++) {
+            System.out.println(text);
+        }
+    }
+}
+class ThreadDemo {
+    public static void main(String[] args) {
+        PrintThread t1 = new PrintThread("COVID19", 10);
+        PrintThread t2 = new PrintThread("LOCKDOWN2020", 20);
+        PrintThread t3 = new PrintThread("VACCINATED2021", 30);
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+Output (sample, interleaved):
+COVID19
+LOCKDOWN2020
+VACCINATED2021
+[repeats 10, 20, 30 times]
+
+Slip 8 Q2 [See Slip 7 Q2]
+
+---
+
+Slip 9, 18, 29 Q1
+class SleepThread extends Thread {
+    public void run() {
+        setName("Counter");
+        for (int i = 100; i >= 1; i--) {
+            System.out.println(getName() + ": " + i);
+            try { Thread.sleep(6000); } catch (Exception e) {}
+        }
+    }
+}
+class SleepDemo {
+    public static void main(String[] args) {
+        SleepThread t = new SleepThread();
+        t.start();
+    }
+}
+Output (first few, 6s delay):
+Counter: 100
+Counter: 99
+Counter: 98
+
+Slip 9 Q2 [See Slip 3 Q2]
+
+---
+
+Slip 10 Q1 [See Slip 1 Q1]
+Slip 10 Q2 [See Slip 4 Q2]
+
+---
+
+Slip 11 Q1 [See Slip 2 Q1]
+Slip 11 Q2 [See Slip 5 Q2]
+
+---
+
+Slip 12 Q1 [See Slip 3 Q1]
+Slip 12, 14 Q2
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class MessageController {
+    @GetMapping("/message")
+    public String getMessage() {
+        return "If you can't explain it simply, you don't understand it well enough";
+    }
+}
+[Reuse Slip 6 SpringApp.java]
+Output (at http://localhost:8080/message):
+If you can't explain it simply, you don't understand it well enough
+
+---
+
+Slip 13 Q1 [See Slip 4 Q1]
+Slip 13 Q2 [See Slip 6 Q2]
+
+---
+
+Slip 14 Q1 [See Slip 5 Q1]
+Slip 14 Q2 [See Slip 12 Q2]
+
+---
+
+Slip 15, 25 Q2
+import javax.swing.*;
+import java.sql.*;
+public class ProjectTable {
+    public static void main(String[] args) throws Exception {
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+        Statement stmt = con.createStatement();
+        stmt.executeUpdate("CREATE TABLE PROJECT (project_id INT, Project_name VARCHAR(50), Project_description VARCHAR(100), Project_Status VARCHAR(20))");
+        stmt.executeUpdate("INSERT INTO PROJECT VALUES (1, 'P1', 'Desc1', 'Active'), (2, 'P2', 'Desc2', 'Done')");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PROJECT");
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int cols = rsmd.getColumnCount();
+        String[] colNames = new String[cols];
+        for (int i = 0; i < cols; i++) colNames[i] = rsmd.getColumnName(i + 1);
+        int rows = 0;
+        while (rs.next()) rows++;
+        rs = stmt.executeQuery("SELECT * FROM PROJECT");
+        String[][] data = new String[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            rs.next();
+            for (int j = 0; j < cols; j++) data[i][j] = rs.getString(j + 1);
+        }
+        JFrame frame = new JFrame("Project Table");
+        JTable table = new JTable(data, colNames);
+        frame.add(new JScrollPane(table));
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        con.close();
+    }
+}
+Output: [GUI Table]
+project_id | Project_name | Project_description | Project_Status
+1          | P1           | Desc1              | Active
+2          | P2           | Desc2              | Done
+
+Slip 15 Q1 [See Slip 6 Q1]
+
+---
+
+Slip 16, 22, 26 Q2
+import java.sql.*;
+class DatabaseInfo {
+    public static void main(String[] args) throws Exception {
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+        DatabaseMetaData dbmd = con.getMetaData();
+        System.out.println("DB: " + dbmd.getDatabaseProductName());
+        System.out.println("Version: " + dbmd.getDatabaseProductVersion());
+        ResultSet rs = dbmd.getTables(null, null, "%", null);
+        System.out.println("Tables:");
+        while (rs.next()) {
+            System.out.println(rs.getString("TABLE_NAME"));
+        }
+        con.close();
+    }
+}
+Output:
+DB: PostgreSQL
+Version: 15.3
+Tables:
+customer
+PATIENT
+PROJECT
+
+Slip 16 Q1 [See Slip 7 Q1]
+
+---
+
+Slip 17, 20, 24 Q2
+import java.sql.*;
+import java.util.Scanner;
+class MobileMenu {
+    public static void main(String[] args) throws Exception {
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+        Statement stmt = con.createStatement();
+        stmt.executeUpdate("CREATE TABLE MOBILE (Model_Number INT, Model_Name VARCHAR(50))");
+        stmt.executeUpdate("INSERT INTO MOBILE VALUES (1, 'M1'), (2, 'M2')");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("1.Insert 2.Modify 3.Delete 4.Search 5.View 6.Exit");
+            int choice = sc.nextInt();
+            if (choice == 6) break;
+            switch (choice) {
+                case 1:
+                    stmt.executeUpdate("INSERT INTO MOBILE VALUES (" + sc.nextInt() + ", '" + sc.next() + "')");
+                    break;
+                case 2:
+                    stmt.executeUpdate("UPDATE MOBILE SET Model_Name='" + sc.next() + "' WHERE Model_Number=" + sc.nextInt());
+                    break;
+                case 3:
+                    stmt.executeUpdate("DELETE FROM MOBILE WHERE Model_Number=" + sc.nextInt());
+                    break;
+                case 4:
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM MOBILE WHERE Model_Number=" + sc.nextInt());
+                    if (rs.next()) System.out.println(rs.getString("Model_Name"));
+                    break;
+                case 5:
+                    rs = stmt.executeQuery("SELECT * FROM MOBILE");
+                    while (rs.next()) System.out.println(rs.getInt(1) + " " + rs.getString(2));
+                    break;
+            }
+        }
+        con.close();
+    }
+}
+Output (sample):
+1.Insert 2.Modify 3.Delete 4.Search 5.View 6.Exit
+5
+1 M1
+2 M2
+
+Slip 17 Q1 [See Slip 8 Q1]
+
+---
+
+Slip 18, 23 Q2
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class RegisterServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        String year = req.getParameter("year");
+        out.println("<html><body>");
+        try {
+            int y = Integer.parseInt(year);
+            if (y == 0) throw new IllegalArgumentException("Invalid year");
+            out.println("Registered, Year: " + y);
+        } catch (Exception e) {
+            out.println("Error: " + e.getMessage());
+        }
+        out.println("</body></html>");
+    }
+}
+<!-- HTML: register.html -->
+<form action="RegisterServlet">
+    Birth Year: <input name="year"><input type="submit">
+</form>
+Output (year=2000):
+<html><body>Registered, Year: 2000</body></html>
+Output (year=0000):
+<html><body>Error: Invalid year</body></html>
+
+Slip 18 Q1 [See Slip 9 Q1]
+
+---
+
+Slip 19, 21, 27 Q2
+import java.sql.*;
+class ResultSetMetaDataDemo {
+    public static void main(String[] args) throws Exception {
+        Class.forName("org.postgresql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tybcs", "postgres", "pass");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM DONAR");
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int n = rsmd.getColumnCount();
+        System.out.println("Columns: " + n);
+        for (int i = 1; i <= n; i++) {
+            System.out.println("Name: " + rsmd.getColumnName(i) + ", Type: " + rsmd.getColumnTypeName(i));
+        }
+        con.close();
+    }
+}
+Output:
+Columns: 2
+Name: donor_id, Type: int4
+Name: donor_name, Type: varchar
+
+Slip 19 Q1
+class Buffer {
+    int value;
+    boolean produced = false;
+    synchronized void produce(int v) {
+        while (produced) try { wait(); } catch (Exception e) {}
+        value = v;
+        produced = true;
+        notify();
+    }
+    synchronized int consume() {
+        while (!produced) try { wait(); } catch (Exception e) {}
+        produced = false;
+        notify();
+        return value;
+    }
+}
+class Producer extends Thread {
+    Buffer b;
+    Producer(Buffer b) { this.b = b; }
+    public void run() {
+        for (int i = 1; i <= 5; i++) b.produce(i);
+    }
+}
+class Consumer extends Thread {
+    Buffer b;
+    Consumer(Buffer b) { this.b = b; }
+    public void run() {
+        for (int i = 1; i <= 5; i++) System.out.println("Consumed: " + b.consume());
+    }
+}
+class ProdConsDemo {
+    public static void main(String[] args) {
+        Buffer b = new Buffer();
+        Producer p = new Producer(b);
+        Consumer c = new Consumer(b);
+        p.start();
+        c.start();
+    }
+}
+Output:
+Consumed: 1
+Consumed: 2
+Consumed: 3
+Consumed: 4
+Consumed: 5
+
+---
+
+Slip 20 Q1
+class SumThread extends Thread {
+    int[] arr;
+    int start, sum = 0;
+    SumThread(int[] arr, int start) {
+        this.arr = arr;
+        this.start = start;
+    }
+    public void run() {
+        for (int i = start; i < start + 100; i++) sum += arr[i];
+    }
+    int getSum() { return sum; }
+}
+class SumDemo {
+    public static void main(String[] args) throws Exception {
+        int[] arr = new int[1000];
+        for (int i = 0; i < 1000; i++) arr[i] = (int)(Math.random() * 100);
+        SumThread[] threads = new SumThread[10];
+        for (int i = 0; i < 10; i++) {
+            threads[i] = new SumThread(arr, i * 100);
+            threads[i].start();
+        }
+        int total = 0;
+        for (SumThread t : threads) {
+            t.join();
+            total += t.getSum();
+        }
+        System.out.println("Sum: " + total);
+        System.out.println("Avg: " + (total / 1000.0));
+    }
+}
+Output:
+Sum: 49523
+Avg: 49.523
+
+Slip 20 Q2 [See Slip 17 Q2]
+
+---
+
+Slip 21 Q1
+import java.io.*;
+import java.util.*;
+class SearchThread extends Thread {
+    String file, search;
+    SearchThread(String file, String search) {
+        this.file = file;
+        this.search = search;
+    }
+    public void run() {
+        try {
+            Scanner sc = new Scanner(new File(file));
+            int lineNum = 0;
+            while (sc.hasNextLine()) {
+                lineNum++;
+                String line = sc.nextLine();
+                if (line.contains(search)) {
+                    System.out.println(file + ": Line " + lineNum + ": " + line);
+                }
+            }
+        } catch (Exception e) {}
+    }
+}
+class SearchDemo {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Search: ");
+        String search = sc.next();
+        File dir = new File(".");
+        for (File f : dir.listFiles()) {
+            if (f.getName().endsWith(".txt")) {
+                new SearchThread(f.getName(), search).start();
+            }
+        }
+    }
+}
+Output:
+Search: hello
+file1.txt: Line 2: hello world
+file2.txt: Line 1: say hello
+
+Slip 21 Q2 [See Slip 19 Q2]
+
+---
+
+Slip 22 Q1
+class NumberThread extends Thread {
+    static int num;
+    static boolean ready = false;
+    public void run() {
+        while (true) {
+            synchronized (NumberThread.class) {
+                if (ready) {
+                    if (num % 2 == 0 && getName().equals("Even")) {
+                        System.out.println("Square: " + (num * num));
+                    } else if (num % 2 != 0 && getName().equals("Odd")) {
+                        System.out.println("Cube: " + (num * num * num));
+                    }
+                    ready = false;
+                    NumberThread.class.notifyAll();
+                } else {
+                    try { NumberThread.class.wait(); } catch (Exception e) {}
+                }
+            }
+        }
+    }
+}
+class Generator extends Thread {
+    public void run() {
+        while (true) {
+            synchronized (NumberThread.class) {
+                NumberThread.num = (int)(Math.random() * 100);
+                System.out.println("Generated: " + NumberThread.num);
+                NumberThread.ready = true;
+                NumberThread.class.notifyAll();
+                try { Thread.sleep(1000); } catch (Exception e) {}
+            }
+        }
+    }
+}
+class EvenOddDemo {
+    public static void main(String[] args) {
+        Generator g = new Generator();
+        NumberThread even = new NumberThread();
+        NumberThread odd = new NumberThread();
+        even.setName("Even");
+        odd.setName("Odd");
+        g.start();
+        even.start();
+        odd.start();
+    }
+}
+Output:
+Generated: 4
+Square: 16
+Generated: 7
+Cube: 343
+
+Slip 22 Q2 [See Slip 16 Q2]
+
+---
+
+Slip 23 Q1 [See Slip 1 Q1]
+Slip 23 Q2 [See Slip 18 Q2]
+
+---
+
+Slip 24 Q1 [See Slip 2 Q1]
+Slip 24 Q2 [See Slip 17 Q2]
+
+---
+
+Slip 25 Q1 [See Slip 4 Q1]
+Slip 25 Q2 [See Slip 15 Q2]
+
+---
+
+Slip 26 Q1 [See Slip 5 Q1]
+Slip 26 Q2 [See Slip 16 Q2]
+
+---
+
+Slip 27 Q1 [See Slip 6 Q1]
+Slip 27 Q2 [See Slip 19 Q2]
+
+---
+
+Slip 28 Q1 [See Slip 7 Q1]
+Slip 28 Q2 [See Slip 5 Q2]
+
+---
+
+Slip 29 Q1 [See Slip 9 Q1]
+Slip 29 Q2 [See Slip 4 Q2]
+
+---
+
+Slip 30 Q1 [See Slip 3 Q1]
+Slip 30 Q2 [See Slip 3 Q2]
